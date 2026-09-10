@@ -8,6 +8,8 @@ on:
     branches:
       - main
 
+  workflow_dispatch:
+  
 jobs:
  Backend_Build_Test:
    stategies:
