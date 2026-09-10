@@ -26,17 +26,17 @@ jobs:
           python-version: ${{ matrix.python-versions }} # Install Python
 
       - name: Install dependencies
-        working-directory: ./backend
+        working-directory: gym-management-system/backend
         run: pip install -r requirements.txt # Install dependencies
       
       - name: Lint Action
-        working-directory: ./backend
+        working-directory: gym-management-system/backend
         run: ruff check . # Check syntax errors
 
       - name: Run Tests
-        working-directory: ./backend
+        working-directory: gym-management-system/backend
         run: pytest # Run test
 
       - name: Build Section
-        working-directory: ./backend
+        working-directory: gym-management-system/backend
         run: python app.py # Builds project

@@ -23,17 +23,17 @@ jobs:
             node-version: '20' #Install Latest Node.js
             
         - name: Install dependencies
-          working-directory: ./frontend
+          working-directory: gym-management-system/frontend
           run: npm ci #Clean Install
 
         - name: ESLint Action
-          working-directory: ./frontend
+          working-directory: gym-management-system/frontend
           run: npm run lint #Checks Syntax Errors
 
         - name: Run Tests
-          working-directory: ./frontend
+          working-directory: gym-management-system/frontend
           run: npm test #Run Test
 
         - name: Build Section
-          working-directory: ./frontend
+          working-directory: gym-management-system/frontend
           run: npm run build # Builds project
