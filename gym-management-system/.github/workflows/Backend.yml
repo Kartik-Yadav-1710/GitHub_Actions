@@ -9,7 +9,7 @@ on:
       - main
 
   workflow_dispatch:
-  
+
 jobs:
  Backend_Build_Test:
    stategies:
@@ -26,13 +26,17 @@ jobs:
           python-version: ${{ matrix.python-versions }} # Install Python
 
       - name: Install dependencies
+        working-directory: ./backend
         run: pip install -r requirements.txt # Install dependencies
       
       - name: Lint Action
+        working-directory: ./backend
         run: ruff check . # Check syntax errors
 
       - name: Run Tests
+        working-directory: ./backend
         run: pytest # Run test
 
       - name: Build Section
+        working-directory: ./backend
         run: python app.py # Builds project

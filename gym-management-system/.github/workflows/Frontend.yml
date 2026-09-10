@@ -1,35 +1,39 @@
-name: Frontend CI
-on:
-  push:
-    branches:
-      - main
+  name: Frontend CI
+  on:
+    push:
+      branches:
+        - main
 
-  pull_request:
-    branches:
-      - main
+    pull_request:
+      branches:
+        - main
 
-  workflow_dispatch:
+    workflow_dispatch:
 
-jobs:
- Frontend_Build_Test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Source Code Checkout
-        uses: actions/checkout@v7
+  jobs:
+   Frontend_Build_Test:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Source Code Checkout
+          uses: actions/checkout@v7
 
-      - name: Setup Node Js
-        uses: actions/setup-node@v4
-        with: 
-          node-version: Latest #Install Latest Node.js
-      
-      - name: Install dependencies
-        run: npm ci #Clean Install
+        - name: Setup Node Js
+          uses: actions/setup-node@v4
+          with: 
+            node-version: Latest #Install Latest Node.js
+        
+        - name: Install dependencies
+          working-directory: ./frontend
+          run: npm ci #Clean Install
 
-      - name: ESLint Action
-        run: npm run lint #Checks Syntax Errors
+        - name: ESLint Action
+          working-directory: ./frontend
+          run: npm run lint #Checks Syntax Errors
 
-      - name: Run Tests
-        run: npm test #Run Test
+        - name: Run Tests
+          working-directory: ./frontend
+          run: npm test #Run Test
 
-      - name: Build Section
-        run: npm run build # Builds project
+        - name: Build Section
+          working-directory: ./frontend
+          run: npm run build # Builds project
