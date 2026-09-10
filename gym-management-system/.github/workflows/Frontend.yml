@@ -20,8 +20,10 @@
         - name: Setup Node Js
           uses: actions/setup-node@v4
           with: 
-            node-version: Latest #Install Latest Node.js
-        
+            node-version: '20' #Install Latest Node.js
+            cache: 'npm'
+            cache-dependency-path: ./frontend/package-lock.json
+
         - name: Install dependencies
           working-directory: ./frontend
           run: npm ci #Clean Install
