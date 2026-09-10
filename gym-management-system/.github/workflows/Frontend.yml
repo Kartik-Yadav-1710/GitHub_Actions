@@ -10,7 +10,7 @@ on:
 
 jobs:
  Frontend_Build_Test:
-    runs-one: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Source Code Checkout
         uses: actions/checkout@v7
