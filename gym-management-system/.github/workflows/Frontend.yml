@@ -1,13 +1,7 @@
   name: Frontend CI
   on:
     push:
-      branches:
-        - main
-
     pull_request:
-      branches:
-        - main
-
     workflow_dispatch:
 
   jobs:
@@ -15,7 +9,7 @@
       runs-on: ubuntu-latest
       steps:
         - name: Source Code Checkout
-          uses: actions/checkout@v7
+          uses: actions/checkout@v4
 
         - name: Setup Node Js
           uses: actions/setup-node@v4
