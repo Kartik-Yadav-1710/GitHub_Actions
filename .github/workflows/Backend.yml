@@ -24,7 +24,6 @@ jobs:
         uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-versions }} # Install Python
-          cache: 'pip'
 
       - name: Install dependencies
         working-directory: ./backend
