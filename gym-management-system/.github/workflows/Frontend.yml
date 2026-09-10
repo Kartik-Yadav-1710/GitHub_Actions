@@ -1,0 +1,33 @@
+name: Frontend CI
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+ Frontend_Build_Test:
+    runs-one: ubuntu-latest
+    steps:
+      - name: Source Code Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node Js
+        uses: actions/setup-node@v4
+        with: 
+          node-version: Latest #Install Latest Node.js
+      
+      - name: Install dependencies
+        run: npm ci #Clean Install
+
+      - name: ESLint Action
+        run: npm run lint #Checks Syntax Errors
+
+      - name: Run Tests
+        run: npm test #Runs Test
+
+      - name: Build Section
+        run: npm run build # Builds project

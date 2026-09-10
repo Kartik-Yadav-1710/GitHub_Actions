@@ -1,0 +1,36 @@
+name: Backend CI
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+ Backend_Build_Test:
+   stategies:
+     matrix:
+      python-versions: [3.12, 3.14]
+     runs-one: ubuntu-latest
+     steps:
+      - name: Code Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup python
+        uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python-versions }} # Install Python
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt # Install dependencies
+      
+      - name: Lint Action
+        run: ruff check . # Check syntax errors
+
+      - name: Run Tests
+        run: pytest # Run tests
+
+      - name: Build Section
+        run: python app.py # Builds project
