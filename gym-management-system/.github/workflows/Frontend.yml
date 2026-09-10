@@ -27,7 +27,7 @@ jobs:
         run: npm run lint #Checks Syntax Errors
 
       - name: Run Tests
-        run: npm test #Runs Test
+        run: npm test #Run Test
 
       - name: Build Section
         run: npm run build # Builds project

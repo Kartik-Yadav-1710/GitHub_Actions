@@ -30,7 +30,7 @@ jobs:
         run: ruff check . # Check syntax errors
 
       - name: Run Tests
-        run: pytest # Run tests
+        run: pytest # Run test
 
       - name: Build Section
         run: python app.py # Builds project
