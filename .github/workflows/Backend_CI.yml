@@ -55,8 +55,7 @@ jobs:
 
       - name: Lint Action
         working-directory: gym-management-system/backend
-        run: ruff check . # Check syntax errors
-
+        run: ruff check . --fix # Check syntax errors
       - name: Run Tests
         working-directory: gym-management-system/backend
         run: pytest # Run test
