@@ -1,4 +1,4 @@
-name: Backend CI
+name: Backend CI workflow
 on:
   push:
     branches:
@@ -11,12 +11,12 @@ on:
   workflow_dispatch:
 
 jobs:
- Backend_Build_Test:
-   stategies:
+  Backend_Build_Test:
+   strategy:
      matrix:
       python-versions: [3.12, 3.14]
-     runs-on: ubuntu-latest
-     steps:
+   runs-on: ubuntu-latest
+   steps:
       - name: Code Checkout
         uses: actions/checkout@v4
 
@@ -29,6 +29,10 @@ jobs:
         working-directory: gym-management-system/backend
         run: pip install -r requirements.txt # Install dependencies
       
+      - name: Install Ruff and pytest
+        working-directory: gym-management-system/backend
+        run: pip install ruff pytest # Install Ruff and pytest
+
       - name: Lint Action
         working-directory: gym-management-system/backend
         run: ruff check . # Check syntax errors
@@ -36,7 +40,3 @@ jobs:
       - name: Run Tests
         working-directory: gym-management-system/backend
         run: pytest # Run test
-
-      - name: Build Section
-        working-directory: gym-management-system/backend
-        run: python app.py # Builds project

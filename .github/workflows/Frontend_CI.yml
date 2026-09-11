@@ -1,4 +1,4 @@
-name: Frontend CI
+name: Frontend CI workflow
 on:
   push:
     branches:
@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-   Frontend_Build_Test:
+  Frontend_Build_Test:
       runs-on: ubuntu-latest
       steps:
         - name: Source Code Checkout
