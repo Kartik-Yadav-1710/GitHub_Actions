@@ -20,9 +20,9 @@ jobs:
       database-container:
         image: postgres:15
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: testdb
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -30,12 +30,15 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
+   env:
+     DATABASE_URL: postgresql://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@database-container:5432/${{ env.POSTGRES_DB }}
+      
    steps:
       - name: Code Checkout
         uses: actions/checkout@v4
 
       - name: Setup python
-        uses: actions/setup-python@v7
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-versions }} # Install Python
 
@@ -50,6 +53,13 @@ jobs:
       - name: Lint Action
         working-directory: gym-management-system/backend
         run: ruff check . --fix # Check syntax errors
+
+      - name: Wait for PostgreSQL
+        run: |
+          until pg_isready -h 127.0.0.1 -p 5432; do
+            echo 'waiting for postgres...'
+            sleep 1
+          done
 
       - name: Run Tests
         working-directory: gym-management-system/backend
