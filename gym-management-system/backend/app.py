@@ -13,17 +13,20 @@ logging.basicConfig(
     ]
 )
 
+# Create logger for this module
+logger = logging.getLogger(__name__)
+
 # Custom 404 handler
 @app.errorhandler(404)
 def not_found(error):
-    logging.error(f"404 Not Found: {error!s}")
+    logger.error(f"404 Not Found: {error!s}")
     return jsonify({"error": "Not Found", "message": "The requested endpoint does not exist"}), 404
 
 
 # Custom error handler to ensure CORS headers
 @app.errorhandler(Exception)
 def handle_error(error):
-    logging.error(f"Unhandled error: {error!s}")
+    logger.error(f"Unhandled error: {error!s}")
     response = jsonify({'error': str(error)})
     response.status_code = 500
     response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')

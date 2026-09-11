@@ -436,9 +436,9 @@ def register_subscription():
         db.session.commit()
         logger.info(f"User {user.username} subscribed to plan {plan.name}")
         return jsonify(subscription.to_dict()), 201
-except (ValueError, KeyError) as e:
-    logger.error(f"User management error: {e!s}")
-    return jsonify({'error': 'Invalid input'}), 400
-except Exception as e:
-    logger.error(f"User management error: {e!s}")
-    return jsonify({'error': 'Internal server error'}), 500
+    except (ValueError, KeyError) as e:
+        logger.error(f"User management error: {e!s}")
+        return jsonify({'error': 'Invalid input'}), 400
+    except Exception as e:
+        logger.error(f"User management error: {e!s}")
+        return jsonify({'error': 'Internal server error'}), 500
