@@ -23,7 +23,7 @@ jobs:
       database-container:
         image: postgres:15
         env:
-          POSTGRES_USER: ${{ vars.POSTGRES_USER }}
+          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: ${{ vars.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ vars.POSTGRES_DB }}
         options: >-
@@ -34,7 +34,7 @@ jobs:
         ports:
           - 5432:5432
    env: 
-    DATABASE_URL: postgresql://${{ vars.POSTGRES_USER }}:${{ vars.POSTGRES_PASSWORD }}@127.0.0.1:5432/${{ vars.POSTGRES_DB }}
+    DATABASE_URL: postgresql://postgres:${{ vars.POSTGRES_PASSWORD }}@127.0.0.1:5432/${{ vars.POSTGRES_DB }}
 
    steps:
       - name: Code Checkout
