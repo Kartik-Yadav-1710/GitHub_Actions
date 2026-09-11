@@ -20,11 +20,13 @@ jobs:
         - name: Setup Node Js
           uses: actions/setup-node@v4
           with: 
-            node-version: '20' #Install Latest Node.js
+            node-version: '24' #Install Latest Node.js
             
         - name: Install dependencies
           working-directory: gym-management-system/frontend
-          run: npm ci #Clean Install
+          run: |
+           npm ci #Clean Install
+           npm install --save-dev eslint jest eslint-plugin-jest # Install ESlint and Jest
 
         - name: ESLint Action
           working-directory: gym-management-system/frontend
