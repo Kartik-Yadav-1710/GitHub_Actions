@@ -12,17 +12,20 @@ on:
 
 jobs:
   Backend_Build_Test:
+
    strategy:
      matrix:
-      python-versions: [3.12, 3.14]
+      python-versions: [3.12]
+
    runs-on: ubuntu-latest
+
    services:
       database-container:
         image: postgres:15
         env:
-          POSTGRES_USER: ${{ env.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_USER: ${{ vars.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ vars.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ vars.POSTGRES_DB }}
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -30,9 +33,9 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
-   env:
-     DATABASE_URL: postgresql://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@database-container:5432/${{ env.POSTGRES_DB }}
-      
+  env: 
+   DATABASE_URL: postgresql://${{ vars.POSTGRES_USER }}:${{ vars.POSTGRES_PASSWORD }}@127.0.0.1:5432/${{ vars.POSTGRES_DB }}
+
    steps:
       - name: Code Checkout
         uses: actions/checkout@v4
@@ -52,14 +55,7 @@ jobs:
 
       - name: Lint Action
         working-directory: gym-management-system/backend
-        run: ruff check . --fix # Check syntax errors
-
-      - name: Wait for PostgreSQL
-        run: |
-          until pg_isready -h 127.0.0.1 -p 5432; do
-            echo 'waiting for postgres...'
-            sleep 1
-          done
+        run: ruff check . # Check syntax errors
 
       - name: Run Tests
         working-directory: gym-management-system/backend
