@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 # Add this after imports
 logger = logging.getLogger(__name__)
@@ -35,8 +35,8 @@ def register():
         access_token = create_access_token(identity=user.id)
         logger.info(f"User {data['username']} registered with role {user.role}")
         return jsonify({'access_token': access_token, 'role': user.role}), 201
-    except Exception as e:
-        logging.error(f"Registration error: {e!s}")
+    except (ValueError, KeyError, DatabaseError) as e:
+        logger.error(f"Registration error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/login', methods=['POST'])
@@ -57,7 +57,7 @@ def login():
         logger.info(f"User {data['username']} logged in successfully")
         return jsonify({'access_token': access_token, 'role': user.role}), 200
     except Exception as e:
-        logging.error(f"Login error: {e!s}")
+        logger.error(f"Login error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/dashboard', methods=['GET'])
@@ -86,7 +86,7 @@ def user_dashboard():
             'rsvps': [r.to_dict() for r in rsvps]
         }), 200
     except Exception as e:
-        logging.error(f"Dashboard error: {e!s}")
+        logger.error(f"Dashboard error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/admin-dashboard', methods=['GET'])
@@ -112,7 +112,7 @@ def admin_dashboard():
             'stats': {'user_count': user_count, 'trainer_count': trainer_count, 'subscription_count': subscription_count}
         }), 200
     except Exception as e:
-        logging.error(f"Admin dashboard error: {e!s}")
+        logger.error(f"Admin dashboard error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/trainer-dashboard', methods=['GET'])
@@ -134,7 +134,7 @@ def trainer_dashboard():
             'class_stats': class_stats
         }), 200
     except Exception as e:
-        logging.error(f"Trainer dashboard error: {e!s}")
+        logger.error(f"Trainer dashboard error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/attendance', methods=['GET', 'POST'])
@@ -155,7 +155,7 @@ def attendance():
             logger.info(f"Attendance marked for user_id {user_id}")
             return jsonify({'message': 'Attendance marked'}), 200
     except Exception as e:
-        logging.error(f"Attendance error: {e!s}")
+        logger.error(f"Attendance error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/rsvp', methods=['POST'])
@@ -177,7 +177,7 @@ def rsvp_class():
         logger.info(f"User {user_id} RSVP'd for class {data['class_id']}")
         return jsonify({'message': 'RSVP successful'}), 200
     except Exception as e:
-        logging.error(f"RSVP error: {e!s}")
+        logger.error(f"RSVP error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/classes', methods=['GET', 'POST'])
@@ -204,7 +204,7 @@ def classes():
             logger.info(f"Class {data['name']} created by trainer {user.username}")
             return jsonify(class_instance.to_dict()), 201
     except Exception as e:
-        logging.error(f"Class error: {e!s}")
+        logger.error(f"Class error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/subscriptions', methods=['POST'])
@@ -244,10 +244,10 @@ def create_subscription():
         logger.info(f"Subscription {data['plan_name']} created by admin {user.username}")
         return jsonify(subscription.to_dict()), 201
     except ValueError as ve:
-        logging.error(f"Subscription creation error: Invalid input {ve!s}")
+        logger.error(f"Subscription creation error: Invalid input {ve!s}")
         return jsonify({'error': 'Invalid input format'}), 400
     except Exception as e:
-        logging.error(f"Subscription creation error: {e!s}")
+        logger.error(f"Subscription creation error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/users', methods=['GET', 'POST', 'PUT', 'DELETE'])
@@ -294,7 +294,7 @@ def manage_users():
                 return jsonify({'message': 'User deleted'}), 200
             return jsonify({'error': 'User not found'}), 404
     except Exception as e:
-        logging.error(f"User management error: {e!s}")
+        logger.error(f"User management error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/trainers', methods=['GET', 'POST', 'PUT', 'DELETE'])
@@ -340,7 +340,7 @@ def manage_trainers():
                 return jsonify({'message': 'Trainer deleted'}), 200
             return jsonify({'error': 'Trainer not found'}), 404
     except Exception as e:
-        logging.error(f"Trainer management error: {e!s}")
+        logger.error(f"Trainer management error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/health-profile', methods=['GET', 'PATCH'])
@@ -367,7 +367,7 @@ def health_profile():
             logger.info(f"Health profile updated for user_id {user_id}")
             return jsonify(profile.to_dict()), 200
     except Exception as e:
-        logging.error(f"Health profile error: {e!s}")
+        logger.error(f"Health profile error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/assign-trainer', methods=['POST'])
@@ -396,7 +396,7 @@ def assign_trainer():
         logger.info(f"Admin {admin.username} assigned trainer {trainer.username} to user {user.username}")
         return jsonify({'message': 'Trainer assigned successfully'}), 200
     except Exception as e:
-        logging.error(f"Trainer assignment error: {e!s}")
+        logger.error(f"Trainer assignment error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/user-subscriptions', methods=['POST'])
