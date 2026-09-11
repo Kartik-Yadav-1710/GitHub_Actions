@@ -24,9 +24,7 @@ jobs:
             
         - name: Install dependencies
           working-directory: gym-management-system/frontend
-          run: |
-           npm ci
-           npm install --save-dev eslint jest eslint-plugin-jest --legacy-peer-deps # Install dependencies
+          run: npm ci
 
         - name: ESLint Action
           working-directory: gym-management-system/frontend
@@ -34,7 +32,7 @@ jobs:
 
         - name: Run Tests
           working-directory: gym-management-system/frontend
-          run: npm test #Run Test
+          run: npm test -- --watchAll=false #Run Test
 
         - name: Build Section
           working-directory: gym-management-system/frontend
