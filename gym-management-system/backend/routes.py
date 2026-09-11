@@ -56,7 +56,7 @@ def login():
         access_token = create_access_token(identity=user.id)
         logger.info(f"User {data['username']} logged in successfully")
         return jsonify({'access_token': access_token, 'role': user.role}), 200
-    except Exception as e:
+    except (ValueError, KeyError, AttributeError) as e:
         logger.error(f"Login error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
@@ -85,7 +85,7 @@ def user_dashboard():
             'classes': [c.to_dict() for c in classes],
             'rsvps': [r.to_dict() for r in rsvps]
         }), 200
-    except Exception as e:
+    except (ValueError, KeyError, AttributeError) as e:
         logger.error(f"Dashboard error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
@@ -111,7 +111,7 @@ def admin_dashboard():
             'subscriptions': [s.to_dict() for s in subscriptions],
             'stats': {'user_count': user_count, 'trainer_count': trainer_count, 'subscription_count': subscription_count}
         }), 200
-    except Exception as e:
+    except (ValueError, KeyError, AttributeError) as e:
         logger.error(f"Admin dashboard error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
@@ -133,7 +133,7 @@ def trainer_dashboard():
             'trained_users': [u.to_dict() for u in trained_users],
             'class_stats': class_stats
         }), 200
-    except Exception as e:
+    except (ValueError, KeyError, AttributeError) as e:
         logger.error(f"Trainer dashboard error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
@@ -154,7 +154,7 @@ def attendance():
             db.session.commit()
             logger.info(f"Attendance marked for user_id {user_id}")
             return jsonify({'message': 'Attendance marked'}), 200
-    except Exception as e:
+    except (ValueError, KeyError, AttributeError) as e:
         logger.error(f"Attendance error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
@@ -176,7 +176,7 @@ def rsvp_class():
         db.session.commit()
         logger.info(f"User {user_id} RSVP'd for class {data['class_id']}")
         return jsonify({'message': 'RSVP successful'}), 200
-    except Exception as e:
+    except (ValueError, KeyError, AttributeError) as e:
         logger.error(f"RSVP error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
@@ -203,7 +203,7 @@ def classes():
             db.session.commit()
             logger.info(f"Class {data['name']} created by trainer {user.username}")
             return jsonify(class_instance.to_dict()), 201
-    except Exception as e:
+    except (ValueError, KeyError, AttributeError) as e:
         logger.error(f"Class error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
@@ -246,7 +246,7 @@ def create_subscription():
     except ValueError as ve:
         logger.error(f"Subscription creation error: Invalid input {ve!s}")
         return jsonify({'error': 'Invalid input format'}), 400
-    except Exception as e:
+    except (ValueError, KeyError, AttributeError) as e:
         logger.error(f"Subscription creation error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
@@ -293,7 +293,7 @@ def manage_users():
                 logger.info(f"Admin {user.username} deleted user {data['id']}")
                 return jsonify({'message': 'User deleted'}), 200
             return jsonify({'error': 'User not found'}), 404
-    except Exception as e:
+    except (ValueError, KeyError, AttributeError) as e:
         logger.error(f"User management error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
@@ -339,7 +339,7 @@ def manage_trainers():
                 logger.info(f"Admin {user.username} deleted trainer {data['id']}")
                 return jsonify({'message': 'Trainer deleted'}), 200
             return jsonify({'error': 'Trainer not found'}), 404
-    except Exception as e:
+    except (ValueError, KeyError, AttributeError) as e:
         logger.error(f"Trainer management error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
@@ -366,7 +366,7 @@ def health_profile():
             db.session.commit()
             logger.info(f"Health profile updated for user_id {user_id}")
             return jsonify(profile.to_dict()), 200
-    except Exception as e:
+    except (ValueError, KeyError, AttributeError) as e:
         logger.error(f"Health profile error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
@@ -395,7 +395,7 @@ def assign_trainer():
         db.session.commit()
         logger.info(f"Admin {admin.username} assigned trainer {trainer.username} to user {user.username}")
         return jsonify({'message': 'Trainer assigned successfully'}), 200
-    except Exception as e:
+    except (ValueError, KeyError, AttributeError) as e:
         logger.error(f"Trainer assignment error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
@@ -439,6 +439,6 @@ def register_subscription():
     except (ValueError, KeyError) as e:
         logger.error(f"User management error: {e!s}")
         return jsonify({'error': 'Invalid input'}), 400
-    except Exception as e:
+    except (ValueError, KeyError, AttributeError) as e:
         logger.error(f"User management error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
