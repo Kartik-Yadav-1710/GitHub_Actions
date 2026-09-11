@@ -35,7 +35,7 @@ def register():
         access_token = create_access_token(identity=user.id)
         logger.info(f"User {data['username']} registered with role {user.role}")
         return jsonify({'access_token': access_token, 'role': user.role}), 201
-    except (ValueError, KeyError, DatabaseError) as e:
+    except (ValueError, KeyError) as e:
         logger.error(f"Registration error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
 
@@ -243,9 +243,6 @@ def create_subscription():
         db.session.commit()
         logger.info(f"Subscription {data['plan_name']} created by admin {user.username}")
         return jsonify(subscription.to_dict()), 201
-    except ValueError as ve:
-        logger.error(f"Subscription creation error: Invalid input {ve!s}")
-        return jsonify({'error': 'Invalid input format'}), 400
     except (ValueError, KeyError, AttributeError) as e:
         logger.error(f"Subscription creation error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
@@ -436,9 +433,6 @@ def register_subscription():
         db.session.commit()
         logger.info(f"User {user.username} subscribed to plan {plan.name}")
         return jsonify(subscription.to_dict()), 201
-    except (ValueError, KeyError) as e:
-        logger.error(f"User management error: {e!s}")
-        return jsonify({'error': 'Invalid input'}), 400
     except (ValueError, KeyError, AttributeError) as e:
         logger.error(f"User management error: {e!s}")
         return jsonify({'error': 'Internal server error'}), 500
