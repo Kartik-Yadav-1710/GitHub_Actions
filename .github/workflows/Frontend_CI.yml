@@ -27,10 +27,10 @@ jobs:
           run: |
            npm ci
            npm install --save-dev eslint jest eslint-plugin-jest --legacy-peer-deps # Install dependencies
-           
+
         - name: ESLint Action
           working-directory: gym-management-system/frontend
-          run: npm run lint #Checks Syntax Errors
+          run: npm run lint --fix #Checks Syntax Errors
 
         - name: Run Tests
           working-directory: gym-management-system/frontend
