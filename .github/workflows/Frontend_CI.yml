@@ -25,8 +25,8 @@ jobs:
         - name: Install dependencies
           working-directory: gym-management-system/frontend
           run: |
-           npm ci #Clean Install
-           npm install --save-dev eslint jest eslint-plugin-jest # Install ESlint and Jest
+           npm ci
+           npm install --save-dev eslint jest eslint-plugin-jest 
 
         - name: ESLint Action
           working-directory: gym-management-system/frontend

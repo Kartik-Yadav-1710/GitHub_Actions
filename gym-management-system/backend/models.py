@@ -1,8 +1,9 @@
-from sqlalchemy_serializer import SerializerMixin
-from sqlalchemy.ext.associationproxy import association_proxy
 from datetime import datetime
-from werkzeug.security import generate_password_hash, check_password_hash
+
 from config import db
+from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy_serializer import SerializerMixin
+from werkzeug.security import check_password_hash, generate_password_hash
 
 # Association tables for many-to-many
 trainer_trainee = db.Table('trainer_trainee',

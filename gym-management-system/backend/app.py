@@ -1,7 +1,7 @@
+import logging
+
 from config import app
 from flask import jsonify
-import routes
-import logging
 
 # Configure logging for console and file
 logging.basicConfig(
@@ -16,14 +16,14 @@ logging.basicConfig(
 # Custom 404 handler
 @app.errorhandler(404)
 def not_found(error):
-    logging.error(f"404 Not Found: {str(error)}")
+    logging.error(f"404 Not Found: {error!s}")
     return jsonify({"error": "Not Found", "message": "The requested endpoint does not exist"}), 404
 
 
 # Custom error handler to ensure CORS headers
 @app.errorhandler(Exception)
 def handle_error(error):
-    logging.error(f"Unhandled error: {str(error)}")
+    logging.error(f"Unhandled error: {error!s}")
     response = jsonify({'error': str(error)})
     response.status_code = 500
     response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
