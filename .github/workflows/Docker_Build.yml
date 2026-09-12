@@ -1,0 +1,47 @@
+name: Docker Build CI workflow
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+  
+  workflow_dispatch:
+
+jobs:
+  Docker_Build_Test:
+     needs: 
+       - Frontend_Build_Test 
+       - Backend_Build_Test
+
+     runs-on: ubuntu-latest
+     steps:
+        - name: Code Checkout
+          uses: actions/checkout@v4
+
+        - name: Setup Docker
+          uses: docker/setup-docker-action@v4
+          with:
+            version: latest
+
+        - name: Docker login
+          uses: docker/login-action@v4
+          with:
+            username: ${{ vars.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+        - name: Frontend Docker Build
+          working-directory: gym-management-system/frontend
+          run: docker build -t {{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest gym-management-system/frontend
+          
+        - name: Backend Docker Build
+          working-directory: gym-management-system/backend
+          run: docker build -t {{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest gym-management-system/backend
+
+        - name: Push Frontend Docker Image
+          run: docker push {{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest
+
+        - name: Push Backend Docker Image
+          run: docker push {{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest
