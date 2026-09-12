@@ -1,23 +1,23 @@
 name: Docker Build CI workflow
 on:
-  push:
-    branches:
-      - main
+  ## push:
+  ##  branches:
+  ##    - main
 
-  pull_request:
-    branches:
-      - main
+  ## pull_request:
+  ##  branches:
+  ##    - main
   
-  workflow_dispatch:
+ ## workflow_dispatch:
 
+  workflow_run:
+    workflows:
+      - Frontend CI workflow
+      - Backend CI workflow
 jobs:
   Docker_Build_Test:
-     needs: 
-       - Frontend_Build_Test 
-       - Backend_Build_Test
-
-     runs-on: ubuntu-latest
-     steps:
+      runs-on: ubuntu-latest
+      steps:
         - name: Code Checkout
           uses: actions/checkout@v4
 
@@ -34,14 +34,14 @@ jobs:
 
         - name: Frontend Docker Build
           working-directory: gym-management-system/frontend
-          run: docker build -t {{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest gym-management-system/frontend
+          run: docker build -t ${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest .
           
         - name: Backend Docker Build
           working-directory: gym-management-system/backend
-          run: docker build -t {{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest gym-management-system/backend
+          run: docker build -t ${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest .
 
         - name: Push Frontend Docker Image
-          run: docker push {{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest
+          run: docker push ${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest
 
         - name: Push Backend Docker Image
-          run: docker push {{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest
+          run: docker push ${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest
