@@ -18,13 +18,13 @@ jobs:
      uses: ./.github/workflows/Backend_CI.yml
 
    Docker_Build_CI:  
-     secrets: inherit
      needs:
       - Frontend_CI
       - Backend_CI
 
      uses: ./.github/workflows/Docker_Build_CI.yml
-  
+     secrets: inherit
+
    Deploy_Application:
      needs: 
       - Docker_Build_CI
@@ -34,6 +34,7 @@ jobs:
          uses: actions/checkout@v4
             
        - name: Run Container
+         working-directory: gym-management-system
          run: |
            docker compose pull
            docker compose up -d
