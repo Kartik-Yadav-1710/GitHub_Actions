@@ -1,6 +1,7 @@
 import logging
 
 from config import app
+import routes
 from flask import jsonify
 
 # Configure logging for console and file
