@@ -18,6 +18,7 @@ jobs:
      uses: ./.github/workflows/Backend_CI.yml
 
    Docker_Build_CI:  
+     secrets: inherit
      needs:
       - Frontend_CI
       - Backend_CI
