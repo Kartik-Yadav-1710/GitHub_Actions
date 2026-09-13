@@ -1,7 +1,6 @@
 services:
   frontend-container:
-    build:
-      context: ./frontend
+    image: ${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest
     env_file:
       - ./frontend/.env
     ports:
@@ -11,8 +10,7 @@ services:
 
 
   backend-container:
-    build:
-      context: ./backend
+    image: ${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest
     env_file:
       - ./backend/.env
     ports:

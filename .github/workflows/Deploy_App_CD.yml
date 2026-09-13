@@ -1,0 +1,28 @@
+name: Deploy CD workflow
+on:
+    ## push:
+    ##  branches:
+    ##    - main
+
+    ## pull_request:
+    ##  branches:
+    ##    - main
+  
+   ## workflow_dispatch:
+    workflow_run:
+        workflows:
+            - Docker Build CI workflow
+          types:
+            - completed
+
+Jobs:
+    Deploy Application:
+        runs-on: self-hosted
+        steps:
+            - name: Code checkout
+              uses: actions/checkout@v4
+            
+            - name: Run Container
+              run: |
+               docker compose pull
+               docker compose up -d
