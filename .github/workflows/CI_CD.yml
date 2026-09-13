@@ -35,6 +35,8 @@ jobs:
             
        - name: Run Container
          working-directory: gym-management-system
+         env:
+          DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }} 
          run: |
            docker compose pull
            docker compose up -d
