@@ -26,6 +26,8 @@ jobs:
      uses: ./.github/workflows/Docker_Build_CI.yml
   
    Deploy_Application:
+     needs: 
+      - Docker_Build_CI
      runs-on: self-hosted
      steps:
        - name: Code checkout
