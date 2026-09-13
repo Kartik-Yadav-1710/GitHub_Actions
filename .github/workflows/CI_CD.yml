@@ -40,3 +40,9 @@ jobs:
          run: |
            docker compose pull
            docker compose up -d
+
+       - name: Run database migrations
+         run: |
+          docker exec gym-management-system-backend-container-1 \
+          python -c "from config import app; from flask_migrate import upgrade; app.app_context().push(); upgrade(); print('DATABASE MIGRATION COMPLETED')"
+          
