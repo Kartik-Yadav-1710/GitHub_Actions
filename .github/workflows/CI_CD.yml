@@ -11,26 +11,26 @@ on:
     workflow_dispatch:
 
 jobs:
-   Frontend CI:
-     uses: ./.github/worklows/Frontend_CI.yml
+   Frontend_CI:
+     uses: ./.github/workflows/Frontend_CI.yml
 
-   Backend CI:
-     uses: ./.github/worklows/Backend_CI.yml
+   Backend_CI:
+     uses: ./.github/workflows/Backend_CI.yml
 
-   Docker Build CI:  
+   Docker_Build_CI:  
      needs:
-      - Frontend CI workflow
-      - Backend CI workflow
+      - Frontend_CI
+      - Backend_CI
 
-     uses: ./.github/worklows/Docker_Build_CI.yml
-
-  Deploy Application:
-      runs-on: self-hosted
-      steps:
-          - name: Code checkout
-            uses: actions/checkout@v4
+     uses: ./.github/workflows/Docker_Build_CI.yml
+  
+   Deploy_Application:
+     runs-on: self-hosted
+     steps:
+       - name: Code checkout
+         uses: actions/checkout@v4
             
-          - name: Run Container
-            run: |
-             docker compose pull
-             docker compose up -d
+       - name: Run Container
+         run: |
+           docker compose pull
+           docker compose up -d
