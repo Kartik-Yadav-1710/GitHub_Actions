@@ -10,13 +10,15 @@ on:
   
  ## workflow_dispatch:
 
-  workflow_run:
-    workflows:
-      - Frontend CI workflow
-      - Backend CI workflow
-    types:
-      - completed
-        
+  ## workflow_run:
+  ##  workflows:
+  ##    - Frontend CI workflow
+  ##    - Backend CI workflow
+  ##  types:
+  ##    - completed
+    
+  workflow_call:
+    
 jobs:
   Docker_Build_Test:
       runs-on: ubuntu-latest

@@ -1,15 +1,17 @@
 name: Frontend CI workflow
 on:
-  push:
-    branches:
-     - main 
+  ## push:
+  ##  branches:
+  ##   - main 
 
-  pull_request:
-    branches:
-     - main  
+  ## pull_request:
+  ##  branches:
+  ##   - main  
 
-  workflow_dispatch:
+  ## workflow_dispatch:
 
+  workflow_call:
+      
 jobs:
   Frontend_Build_Test:
       runs-on: ubuntu-latest
