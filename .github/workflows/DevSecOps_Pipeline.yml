@@ -16,6 +16,7 @@ jobs:
     
     SAST_Scan_CodeQL:
       uses: ./.github/workflows/SAST.yml
+      secrets: inherit
 
     Dependencies_Scan:
       uses: ./.github/workflows/Dependencies_Scan.yml
