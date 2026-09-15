@@ -1,0 +1,42 @@
+name: DevSecOps Pipeline workflow
+on:
+    push:
+      branches:
+       - main
+
+    pull_request:
+      branches:
+       - main
+  
+    workflow_dispatch:
+
+jobs:
+    Secrets_Scan_TruffleHog:
+      uses: ./.github/workflows/Secrets_Scan.yml
+    
+    SAST_Scan_CodeQL:
+      uses: ./.github/workflows/SAST.yml
+
+    Dependencies_Scan:
+      uses: ./.github/workflows/Dependencies_Scan.yml
+    
+    Frontend_CI:
+      needs:
+        - Secrets_Scan_TruffleHog
+        - SAST_Scan_CodeQL
+        - Dependencies_Scan
+      uses: ./.github/workflows/Frontend_CI.yml
+
+    Backend_CI:
+      needs:
+        - Secrets_Scan_TruffleHog
+        - SAST_Scan_CodeQL
+        - Dependencies_Scan
+      uses: ./.github/workflows/Backend_CI.yml
+
+    Docker_Build_CI:  
+      needs:
+        - Frontend_CI
+        - Backend_CI
+      uses: ./.github/workflows/Docker_Build_CI.yml
+      secrets: inherit

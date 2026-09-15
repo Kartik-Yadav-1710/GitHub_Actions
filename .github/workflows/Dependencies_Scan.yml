@@ -1,0 +1,41 @@
+name: Dependencies Scan workflow
+on:
+    workflow_call:
+
+jobs:
+  dependencies_scan:
+    
+    strategy:
+         matrix:
+            python-versions: [3.12]
+
+    runs-on: ubuntu-latest
+       
+    steps:
+         - name: Code Checkout
+           uses: actions/checkout@v4
+           with:
+            fetch-depth: 0
+
+         - name: Setup python
+           uses: actions/setup-python@v4
+           with:
+             python-version: ${{ matrix.python-versions }} # Install Python
+
+         - name: Run Dependency Scan for Pip
+           uses: pypa/gh-action-pip-audit@v1.1.0
+           with:
+            inputs: gym-management-system/backend/requirements.txt
+
+         - name: Setup Node Js
+           uses: actions/setup-node@v4
+           with: 
+            node-version: '24' #Install Latest Node.js
+
+         - name: Install Frontend Dependencies
+           working-directory: gym-management-system/frontend
+           run: npm ci
+
+         - name: Run npm Audit
+           working-directory: gym-management-system/frontend
+           run: npm audit --audit-level=high

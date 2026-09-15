@@ -45,8 +45,8 @@ jobs:
           working-directory: gym-management-system/backend
           run: docker build -t ${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest .
 
-        - name: Push Frontend Docker Image # Push Frontend Docker Image to DockerHub
-          run: docker push ${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest
+      ##  - name: Push Frontend Docker Image # Push Frontend Docker Image to DockerHub
+      ##    run: docker push ${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest
 
-        - name: Push Backend Docker Image # Push Backend Docker Image to DockerHub
-          run: docker push ${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest
+      ##  - name: Push Backend Docker Image # Push Backend Docker Image to DockerHub
+      ##    run: docker push ${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest
