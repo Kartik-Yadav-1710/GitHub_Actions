@@ -15,8 +15,13 @@ jobs:
       uses: ./.github/workflows/Secrets_Scan.yml
     
     SAST_Scan_CodeQL:
+      permissions:
+        security-events: write
+        packages: read
+        actions: read
+        contents: read
+
       uses: ./.github/workflows/SAST.yml
-      secrets: inherit
 
     Dependencies_Scan:
       uses: ./.github/workflows/Dependencies_Scan.yml
