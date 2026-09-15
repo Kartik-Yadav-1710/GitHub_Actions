@@ -5,6 +5,13 @@ on:
 jobs:
     SAST_Test_CodeQL_Scan:
         runs-on: ubuntu-latest
+
+        permissions:
+            security-events: write
+            packages: read
+            actions: read
+            contents: read
+            
         steps:
            - name: Code Checkout
              uses: actions/checkout@v4
