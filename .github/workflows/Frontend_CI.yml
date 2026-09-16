@@ -23,6 +23,8 @@ jobs:
           uses: actions/setup-node@v4
           with: 
             node-version: '24' #Install Latest Node.js
+            cache: npm
+            cache-dependency-path: gym-management-system/frontend/package-lock.json
             
         - name: Install dependencies
           working-directory: gym-management-system/frontend
