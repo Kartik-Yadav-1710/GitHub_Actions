@@ -38,4 +38,4 @@ jobs:
 
          - name: Run npm Audit
            working-directory: gym-management-system/frontend
-           run: npm audit --audit-level=high
+           run: npm audit fix --audit-level=high
