@@ -4,6 +4,10 @@ on:
 
 jobs:
     Image_Scan_Trivy:
+        strategy:
+            matrix:
+                image: ['${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest', '${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest']
+        
         runs-on: ubuntu-latest
         steps:
             - name: Code Checkout
@@ -14,9 +18,7 @@ jobs:
             - name: Run Trivy Scanning
               uses: aquasecurity/trivy-action@v0.36.0
               with:
-               image-ref: 
-                 -${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest .
-                 -${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest .
+               image-ref: ${{ matrix.image }}
                format: 'table'
                exit-code: '1'
                ignore-unfixed: true
