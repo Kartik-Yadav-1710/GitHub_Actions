@@ -46,3 +46,9 @@ jobs:
         - Backend_CI
       uses: ./.github/workflows/Docker_Build_CI.yml
       secrets: inherit
+    
+    Image_Scan_Trivy:  
+      needs:
+        - Docker_Build_CI
+      uses: ./.github/workflows/Image_Scan.yml
+      secrets: inherit

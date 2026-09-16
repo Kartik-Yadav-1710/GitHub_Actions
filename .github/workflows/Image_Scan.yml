@@ -1,0 +1,23 @@
+name: Image Scan workflow
+on:
+    workflow_call:
+
+jobs:
+    Image_Scan_Trivy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Code Checkout
+              uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
+
+            - name: Run Trivy Scanning
+              uses: aquasecurity/trivy-action@v0.36.0
+              with:
+               image-ref: 
+                 -${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest .
+                 -${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest .
+               format: 'table'
+               exit-code: '1'
+               ignore-unfixed: true
+               severity: 'CRITICAL,HIGH'
