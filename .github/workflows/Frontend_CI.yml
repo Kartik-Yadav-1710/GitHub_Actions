@@ -28,9 +28,7 @@ jobs:
             
         - name: Install frontend dependencies
           working-directory: gym-management-system/frontend
-          env:
-            npm_config_cache: ${{ runner.temp }}/npm-cache
-          run: npm ci --prefer-online --no-audit --fund=false
+          run: npm ci
 
         - name: ESLint Action
           working-directory: gym-management-system/frontend
