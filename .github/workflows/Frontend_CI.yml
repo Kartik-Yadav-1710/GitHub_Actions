@@ -26,13 +26,15 @@ jobs:
             cache: npm
             cache-dependency-path: gym-management-system/frontend/package-lock.json
             
-        - name: Install dependencies
+        - name: Install frontend dependencies
           working-directory: gym-management-system/frontend
-          run: npm ci
+          env:
+            npm_config_cache: ${{ runner.temp }}/npm-cache
+          run: npm ci --prefer-online --no-audit --fund=false
 
         - name: ESLint Action
           working-directory: gym-management-system/frontend
-          run: npm run lint  #Checks Syntax Errors
+          run: npm run lint  # Checks Syntax Errors
 
         - name: Run Tests
           working-directory: gym-management-system/frontend
@@ -40,4 +42,4 @@ jobs:
 
         - name: Build Section
           working-directory: gym-management-system/frontend
-          run: npm run build # Builds project
+          run: npm run build  # Builds project
