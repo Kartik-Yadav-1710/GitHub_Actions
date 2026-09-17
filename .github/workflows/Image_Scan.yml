@@ -6,7 +6,7 @@ jobs:
     Image_Scan_Trivy:
         strategy:
             matrix:
-                image: ['${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest', '${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest']
+                image: ['${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest', '${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest']
         
         runs-on: ubuntu-latest
         steps:
