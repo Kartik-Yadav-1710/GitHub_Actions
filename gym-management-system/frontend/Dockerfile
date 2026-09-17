@@ -1,5 +1,5 @@
 # Pull a Base Image
-FROM node:latest AS Builder
+FROM node:20 AS Builder
 
 # Work directory to keep all codes
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.* .
 
 # Build Stage
-RUN npm install
+RUN npm ci
 
 COPY . .
 RUN npm run build
@@ -18,10 +18,12 @@ FROM nginx:alpine
 
 WORKDIR /app
 
+# Update Alpine packages to get security fixes
+RUN apk update && apk upgrade
+
 COPY --from=Builder /app/build  /usr/share/nginx/html
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Run the Container
 CMD ["nginx", "-g", "daemon off;"]
-
