@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.* .
 
 # Build Stage
-RUN npm ci
+RUN npm intall
 
 COPY . .
 RUN npm run build
