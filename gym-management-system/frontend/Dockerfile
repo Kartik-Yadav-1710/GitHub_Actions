@@ -14,7 +14,7 @@ COPY . .
 RUN npm run build
 
 # Pulling a lighter image to run the application1
-FROM nginx:alpine
+FROM nginx:stable-alpine
 
 WORKDIR /app
 
