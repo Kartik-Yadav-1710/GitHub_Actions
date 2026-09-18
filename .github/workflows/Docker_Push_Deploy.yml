@@ -4,7 +4,7 @@ on:
 
 jobs:
     Docker-Push-Deploy:
-      runs-on: ubuntu-latest
+      runs-on: self-hosted
       steps:
         - name: Code Checkout
           uses: actions/checkout@v4
