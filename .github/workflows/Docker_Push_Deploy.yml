@@ -1,0 +1,43 @@
+name: Docker Push & Deploy
+on:
+    workflow_call:
+
+jobs:
+    Docker-Push-Deploy:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Code Checkout
+          uses: actions/checkout@v4
+        
+        - name: Setup Docker
+          uses: docker/setup-docker-action@v4
+          with:
+            version: latest
+
+        - name: Docker Login
+          uses: docker/login-action@v4
+          with: 
+             username: ${{ vars.DOCKERHUB_USERNAME }}
+             password: ${{ secrets.DOCKERHUB_TOKEN }}
+        
+        - name: Frontend Docker Build # Frontend Docker Build
+          working-directory: gym-management-system/frontend
+          run: docker build --no-cache -t ${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest .
+            
+        - name: Backend Docker Build # Backend Docker Build
+          working-directory: gym-management-system/backend
+          run: docker build --no-cache -t ${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest .
+
+        - name: Push Frontend Docker Image # Push Frontend Docker Image to DockerHub
+          run: docker push ${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest
+
+        - name: Push Backend Docker Image # Push Backend Docker Image to DockerHub
+          run: docker push ${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest
+
+        - name: Run Container
+          working-directory: gym-management-system
+          env:
+           DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }} 
+          run: |
+           docker compose pull
+           docker compose up -d

@@ -52,3 +52,9 @@ jobs:
         - Docker_Build_CI
       uses: ./.github/workflows/Image_Scan.yml
       secrets: inherit
+
+    Docker_Push_Deploy:
+      needs:
+        - Image_Scan_Trivy
+      uses: ./.github/workflows/Docker_Push_Deploy.yml
+      secrets: inherit
