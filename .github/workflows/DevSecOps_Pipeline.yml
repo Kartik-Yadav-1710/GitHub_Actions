@@ -40,21 +40,9 @@ jobs:
         - Dependencies_Scan
       uses: ./.github/workflows/Backend_CI.yml
 
-    Docker_Build_CI:  
+    Docker_Build_Image_Scan_Push_Deploy_CI:  
       needs:
         - Frontend_CI
         - Backend_CI
-      uses: ./.github/workflows/Docker_Build_CI.yml
-      secrets: inherit
-    
-    Image_Scan_Trivy:  
-      needs:
-        - Docker_Build_CI
-      uses: ./.github/workflows/Image_Scan.yml
-      secrets: inherit
-
-    Docker_Push_Deploy:
-      needs:
-        - Image_Scan_Trivy
-      uses: ./.github/workflows/Docker_Push_Deploy.yml
+      uses: ./.github/workflows/Docker_Build+Image_Scan+Push+Deploy_CI.yml
       secrets: inherit
