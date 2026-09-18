@@ -18,7 +18,15 @@ FROM python:3.12-slim-bookworm
 
 WORKDIR /app
 
+# Update Debian packages to security-fixed versions
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy Python packages
 COPY --from=Builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
+
+# Copy application
 COPY --from=Builder /app .
 
 # Run the Application
