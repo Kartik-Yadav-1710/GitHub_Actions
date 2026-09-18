@@ -32,7 +32,7 @@ def register():
         user.set_password(data['password'])
         db.session.add(user)
         db.session.commit()
-        access_token = create_access_token(identity=user.id)
+        access_token = create_access_token(identity=str(user.id))
         logger.info(f"User {data['username']} registered with role {user.role}")
         return jsonify({'access_token': access_token, 'role': user.role}), 201
     except (ValueError, KeyError) as e:
@@ -53,7 +53,7 @@ def login():
         if not user.check_password(data['password']):
             logger.info(f"Login failed: Invalid password for user {data['username']}")
             return jsonify({'error': 'Invalid credentials'}), 401
-        access_token = create_access_token(identity=user.id)
+        access_token = create_access_token(identity=str(user.id))
         logger.info(f"User {data['username']} logged in successfully")
         return jsonify({'access_token': access_token, 'role': user.role}), 200
     except (ValueError, KeyError, AttributeError) as e:
