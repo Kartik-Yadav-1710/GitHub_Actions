@@ -34,7 +34,7 @@ jobs:
         - name: Push Backend Docker Image # Push Backend Docker Image to DockerHub
           run: docker push ${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest
 
-        - name: Run Container
+        - name: Run Containers
           working-directory: gym-management-system
           env:
            DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }} 
