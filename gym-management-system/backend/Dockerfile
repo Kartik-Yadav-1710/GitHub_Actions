@@ -8,13 +8,13 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Install the dependencies
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 # Copy the Code
 COPY . . 
 
 # Using a Lighter base Image just to run the Container
-FROM python:3.12-slim
+FROM python:3.12-slim-bookworm
 
 WORKDIR /app
 
@@ -23,5 +23,3 @@ COPY --from=Builder /app .
 
 # Run the Application
 CMD ["python", "app.py"]
-
-
