@@ -21,9 +21,9 @@ on:
     
 jobs:
   Docker_Build_Image_Scan_Push_Deploy:
-      strategy:
-        matrix:
-            image: ['${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest', '${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest']
+     ## strategy:
+     ##   matrix:
+     ##       image: ['${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest', '${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest']
         
       runs-on: self-hosted
       steps:
@@ -51,10 +51,21 @@ jobs:
           working-directory: gym-management-system/backend
           run: docker build -t ${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest .
 
-        - name: Run Image Scan via Trivy
+        # Trivy - Frontend
+        - name: Trivy Frontend Image Scan
           uses: aquasecurity/trivy-action@v0.36.0
           with:
-               image-ref: ${{ matrix.image }}
+               image-ref: '${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest'
+               format: 'table'
+               exit-code: '1'
+               ignore-unfixed: true
+               severity: 'CRITICAL,HIGH'
+
+        # Trivy - Backend
+        - name: Trivy Backend Image Scan
+          uses: aquasecurity/trivy-action@v0.36.0
+          with:
+               image-ref: '${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-backend:latest'
                format: 'table'
                exit-code: '1'
                ignore-unfixed: true
