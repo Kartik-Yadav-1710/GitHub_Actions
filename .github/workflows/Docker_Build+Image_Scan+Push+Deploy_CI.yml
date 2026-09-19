@@ -71,7 +71,7 @@ jobs:
                ignore-unfixed: true
                severity: 'CRITICAL,HIGH'
 
-        - name: Push Frontend Docker Image # Push Frontend Docker Image to DockerHub
+        - name: Push Frontend Docker Image  # Push Frontend Docker Image to DockerHub
           run: docker push ${{ vars.DOCKERHUB_USERNAME }}/gym-management-system-frontend:latest
 
         - name: Push Backend Docker Image # Push Backend Docker Image to DockerHub
