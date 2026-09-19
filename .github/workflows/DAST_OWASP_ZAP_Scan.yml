@@ -1,0 +1,16 @@
+name: OWASP ZAP DAST Scan
+on:
+    workflow_call:
+
+jobs:
+    OWASP_ZAP_DAST_Scan:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Code Checkout
+              uses: actions/checkout@v4
+
+            - name: ZAP Baseline Scan
+              uses: zaproxy/action-baseline@v0.15.0
+              with:
+                 token: ${{ secrets.GITHUB_TOKEN }}
+                 target: 'http://${{ secrets.EC2_HOST }}:8001'

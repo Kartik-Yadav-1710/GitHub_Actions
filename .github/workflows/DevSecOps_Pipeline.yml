@@ -20,7 +20,6 @@ jobs:
         packages: read
         actions: read
         contents: read
-
       uses: ./.github/workflows/SAST.yml
 
     Dependencies_Scan:
@@ -45,4 +44,10 @@ jobs:
         - Frontend_CI
         - Backend_CI
       uses: ./.github/workflows/Docker_Build+Image_Scan+Push+Deploy_CI.yml
+      secrets: inherit
+
+    DAST_Scan_OWASP:
+      needs:
+        - Docker_Build_Image_Scan_Push_Deploy_CI
+      uses: ./.github/workflows/DAST_OWASP_ZAP_Scan.yml
       secrets: inherit
