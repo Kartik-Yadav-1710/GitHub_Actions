@@ -20,7 +20,7 @@ jobs:
         packages: read
         actions: read
         contents: read
-      uses: ./.github/workflows/SAST.yml
+      uses: ./.github/workflows/SAST_CodeQL_Scan.yml
 
     Dependencies_Scan:
       uses: ./.github/workflows/Dependencies_Scan.yml
