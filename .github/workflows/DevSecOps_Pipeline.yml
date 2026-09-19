@@ -49,5 +49,8 @@ jobs:
     DAST_Scan_OWASP:
       needs:
         - Docker_Build_Image_Scan_Push_Deploy_CI
+      permissions:
+        issues: write
+        contents: read
       uses: ./.github/workflows/DAST_OWASP_ZAP_Scan.yml
       secrets: inherit
